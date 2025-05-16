@@ -1,3 +1,6 @@
+# real config
+config.yml
+
 # Everything under processed_data
 processed_data/**
 
