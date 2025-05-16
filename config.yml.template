@@ -1,6 +1,44 @@
 data_path:
-  bulk_data_path: "/path/to/bulk/data"
-  sc_data_path: "/path/to/sc/data"
+  ## this is where the .tsv.gz files of the bulks from GSE217517 should live
+  bulk_data_path: "/path/to/bulk/data" # REPLACE THIS
+  ## this is where the post anlysis path to sc data should live
+  ## expects the following subdirectory/file:
+  ## - /path/to/sc/data/GSE217517_processed/*.h5ad
+  sc_data_path: "/path/to/sc/data" # REPLACE THIS
 
 software_path:
-  buddi_v2: "/path/to/buddi_v2"
+  ## not yet installable buddi_v2 clone need to exist some where local
+  buddi_v2: "/path/to/buddi_v2" # REPLACE THIS
+
+## Biomart mapping between ensembl ids to symbols
+## generated from https://www.ensembl.org/biomart/martview
+biomart_export_file: # REPLACE THIS
+data_accession: 'GSE217517'
+
+## Analysis config, can and should remain unchanged
+analysis_config: # GSE217517 analysis config
+  source:
+    bulk:
+      obs:
+        sample_col: 'subject_id' # expects this column in bulk obs
+        stim_col: 'dissociation_method' # expects this column in bulk obs
+      var:
+        gene_id_col: 'gene_ids' # expects this column in bulk var
+    sc:
+      obs:
+        cell_type_col: 'cellType' # expects this column in the input processed single cell h5ad
+        sample_col: 'samp_id' # expects this column in the input processed single cell h5ad
+        stim_col: 'stim' # expects this column in the input processed single cell h5ad
+      var:
+        gene_id_col: None # 'gene_ids' # gene identifier column in the adata.var of sc h5ad, or None to use index column
+
+  format: # rename/name the columns in the processed data, shared across bulk and sc
+    obs:
+      cell_type_col: 'cell_type' # single cell dominant pseudo-bulk cell type (e.g. B cell)
+      cell_prop_col: 'cell_prop_type' # data type (e.g. bulk, random_pseudobulk, single_cell_dominant_pseudobulk)
+      sample_col: 'sample_id' # sample identifier
+      stim_col: 'stim' # stimulation condition (e.g. unstimulated, stimulated)
+      samp_type_col: 'samp_type' # technology type (e.g. bulk RNA-seq, sc RNA-seq)
+      datasplit_col: 'isTraining'
+    var:
+      gene_id_col: 'gene_id' # gene identifier
