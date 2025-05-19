@@ -1,3 +1,6 @@
+# Everything under the trained folder (trained model weights and figures)
+trained/**
+
 # real config
 config.yml
 
